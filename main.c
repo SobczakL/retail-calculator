@@ -36,49 +36,51 @@ menuOption salesMetrics[] = {
 menuOption productivityMetrics[] = {
     {1, "sell through rate", sellThroughRate},
     {2, "gross margin", NULL}, 
-    {3, "gross margin return on investment", NULL},
+    {3, "gross margin return on investment", NULL}, 
 };
 
-menuOption inventoryMetrics[] = {
+menuOption inventoryMetrics[] = { 
     {1, "average inventory", NULL},
     {2, "stock to sales", NULL}, 
-    {3, "turn", NULL},
-    {4, "weeks of supply", NULL},
-};
+    {3, "turn", NULL}, 
+    {4, "weeks of supply", NULL}, 
+}; 
 
-int main(void)
-{
-   char option = selectOption(operationSelection, sizeof(operationSelection) / sizeof(operationSelection[0]));
-    int optionIndex;
-
-    switch (option) 
-    {   
-        case '1':
-            
-            option = selectOption(salesMetrics, sizeof(salesMetrics) / sizeof(salesMetrics[0]));
-            optionIndex = option - '1';
-
-            if (optionIndex >= 0 && optionIndex < sizeof(salesMetrics) / sizeof(salesMetrics[0]))
-            {
-                if (salesMetrics[optionIndex].operation != NULL)
+int main(void) 
+{ 
+    while(1) 
+    { 
+        int optionIndex; 
+        char option; 
+        option = selectOption(operationSelection, sizeof(operationSelection) / sizeof(operationSelection[0])); 
+        
+        switch (option) 
+        {   
+            case '1': 
+                option = selectOption(salesMetrics, sizeof(salesMetrics) / sizeof(salesMetrics[0])); optionIndex = option - '0'; 
+                
+                if (optionIndex >= 0)
                 {
-                    salesMetrics[optionIndex].operation();
+                    if (salesMetrics[optionIndex].operation != NULL)
+                    {
+                        salesMetrics[optionIndex].operation();
+                    }
+                    else
+                    {
+                        printf("No operation assigned to this option.\n");
+                    }
                 }
                 else
                 {
-                    printf("No operation assigned to this option.\n");
+                    printf("Invalid option.\n");
                 }
-            }
-            else
-            {
-                printf("Invalid option.\n");
-            }
-            break;
+                break;
 
-        default:
-            printf("Please select a valid option\n");
-            option = selectOption(operationSelection, sizeof(operationSelection[0]));
+            case '5':
+                exit(0);
+        }
     }
+
     return 0;
 };
 
@@ -91,6 +93,8 @@ char selectOption(menuOption menuOption[], int optionSize)
     {
         printf("%i. %s\n", menuOption[i].num, menuOption[i].option);
     }
+
+
     scanf("%c", &selected);
     
     return selected;
