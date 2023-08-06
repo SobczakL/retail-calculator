@@ -57,22 +57,19 @@ int main(void)
         switch (option) 
         {   
             case '1': 
-                option = selectOption(salesMetrics, sizeof(salesMetrics) / sizeof(salesMetrics[0])); optionIndex = option - '0'; 
+
+                option = selectOption(salesMetrics, sizeof(salesMetrics) / sizeof(salesMetrics[0])); 
+                optionIndex = option - '0'; 
                 
-                if (optionIndex >= 0)
+                if(optionIndex > 0)
                 {
-                    if (salesMetrics[optionIndex].operation != NULL)
-                    {
-                        salesMetrics[optionIndex].operation();
-                    }
-                    else
-                    {
-                        printf("No operation assigned to this option.\n");
-                    }
+                    salesMetrics[optionIndex - 1].operation();
+                    break;
                 }
                 else
                 {
-                    printf("Invalid option.\n");
+                    printf("failed\n");
+                    break;
                 }
                 break;
 
@@ -95,7 +92,7 @@ char selectOption(menuOption menuOption[], int optionSize)
     }
 
 
-    scanf("%c", &selected);
+    scanf(" %c", &selected);
     
     return selected;
 };
