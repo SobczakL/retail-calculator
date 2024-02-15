@@ -1,4 +1,4 @@
-
+#include <iso646.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -204,7 +204,7 @@ float averageUnitRetail(void) {
   return 1;
 }
 float cogs(void) {
-  int bInv, purchases, eInv;
+  int bInv, purchases, eInv, total;
 
   printf("What is the value of your beginning inventory?\n");
   scanf("%i", &bInv);
@@ -215,8 +215,9 @@ float cogs(void) {
   printf("What is the value of your ending inventory?\n");
   scanf("%i", &eInv);
 
-  printf("The cost of goods sold is $%i\n", (int)bInv + purchases - eInv);
-  return 1;
+  total = bInv + purchases - eInv;
+  printf("The cost of goods sold is $%i\n", (int)total);
+  return total;
 }
 
 float sellThroughRate(void) {
@@ -233,8 +234,9 @@ float sellThroughRate(void) {
   return 1;
 };
 float grossMarginRate(void) {
-  int revenue, costOfGoods, selection;
-  float cogsValue;
+  int revenue, cogsValue, *pCogsValue, selection;
+  cogsValue = 0;
+  pCogsValue = &cogsValue;
 
   options option[] = {{1, "Yes\n"}, {2, "No\n"}};
 
@@ -245,10 +247,20 @@ float grossMarginRate(void) {
   }
   scanf("%i", &selection);
 
-  if (selection == '1') {
-    cogsValue = cogs();
-    printf("%f", cogsValue);
+  if (selection == 1) {
+    *pCogsValue = cogs();
   }
+
+  printf("What is your total revenue?\n");
+  scanf("%i", &revenue);
+
+  if (cogsValue == 0) {
+    printf("What is your cost of goods sold?\n");
+    scanf("%i", &cogsValue);
+  }
+
+  printf("Your gross margin rate is: %.2f\n",
+         (float)((revenue - cogsValue) / revenue) * 100);
   return 1;
 }
 float grossMarginReturnOnInvestment(void) { return 0.0; }
