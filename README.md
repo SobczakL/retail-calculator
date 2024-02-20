@@ -1,1 +1,3 @@
-# retail-calculator
+# Retail Calculator
+
+
