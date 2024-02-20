@@ -1,7 +1,6 @@
 #include <iso646.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #define SALES 6
 #define PRODUCTIVITY 3
