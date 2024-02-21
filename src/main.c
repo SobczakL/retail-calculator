@@ -2,10 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SALES 6
-#define PRODUCTIVITY 3
-#define INVENTORY 4
-
 typedef struct {
   int num;
   char *option;
@@ -262,8 +258,76 @@ float grossMarginRate(void) {
          (float)((revenue - cogsValue) / revenue) * 100);
   return 1;
 }
-float grossMarginReturnOnInvestment(void) { return 0.0; }
-float averageInventory(void) { return 0.0; }
+float grossMarginReturnOnInvestment(void) {
+  int gm, aInv, selection, secondSelection;
+
+  options option1[] = {{1, "Yes\n"}, {2, "No\n"}};
+  options option2[] = {
+      {1, "Gross Margin\n"}, {2, "Average Cost of Inventory\n"}, {3, "Both\n"}};
+
+  printf("This formula requires a gross margin and average cost of inventory. "
+         "Would you like to calculate them now?\n");
+  for (int i = 0; i < sizeof(option1) / sizeof(option1[0]); i++) {
+    printf("%i. %s", option1[i].id, option1[i].opt);
+  }
+  scanf("%i", &selection);
+
+  if (selection == 1) {
+    printf("Please select which formula you'd like to run\n");
+    for (int i = 0; i < sizeof(option2) / sizeof(option2[0]); i++) {
+      printf("%i. %s", option2[i].id, option2[i].opt);
+    }
+    scanf("%i", &secondSelection);
+    switch (secondSelection) {
+    case 1:
+      gm = grossMarginRate();
+      printf("What is your average cost of inventory?\n");
+      scanf("%i", &aInv);
+      printf("Your GMROI is: %.1f", (float)gm / aInv);
+      break;
+
+    case 2:
+      printf("What is your gross margin?\n");
+      scanf("%i", &gm);
+      aInv = averageInventory();
+      printf("Your GMROI is: %.1f\n", (float)gm / aInv);
+      break;
+
+    case 3:
+      gm = grossMarginRate();
+      aInv = averageInventory();
+      printf("Your GMROI is: %.1f\n", (float)gm / aInv);
+      break;
+
+    default:
+      printf("Invalid selection\n");
+      return 1;
+    };
+  } else {
+    printf("What is your gross margin?\n");
+    scanf("%i", &gm);
+    printf("What is your average cost of inventory?\n");
+    scanf("%i", &aInv);
+
+    printf("Your GMROI is: %.1f\n", (float)gm / aInv);
+  }
+
+  return 0.0;
+}
+float averageInventory(void) {
+  int bInv, eInv;
+  float total;
+
+  printf("What is the value of your beginning inventory?\n");
+  scanf("%i", &bInv);
+  printf("What is the value of your ending inventory?\n");
+  scanf("%i", &eInv);
+
+  total = (bInv / eInv) / 2;
+  printf("Your average inventory value is: %.2f\n", (float)total);
+
+  return total;
+}
 float stockToSales(void) { return 0.0; }
 float turns(void) { return 0.0; }
 float weeksOfSupply(void) { return 0.0; }
