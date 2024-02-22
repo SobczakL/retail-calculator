@@ -136,10 +136,10 @@ char selectOption(menuOption menuOption[], int optionSize) {
 float averageDollarSales(void) {
   int salesGenerated, periods;
 
-  printf("What is the total sales generated?\n");
+  printf("What are your total generated sales?\n");
   scanf("%i", &salesGenerated);
 
-  printf("Over how many periods?\n");
+  printf("Over how many periods were the total generated sales?\n");
   scanf("%i", &periods);
 
   printf("The average dollar sales is: %.2f per period\n",
@@ -150,10 +150,10 @@ float averageDollarSales(void) {
 float averagePerWeek(void) {
   int totalUnits, weeks;
 
-  printf("How many total units?\n");
+  printf("How many total units have you sold?\n");
   scanf("%i", &totalUnits);
 
-  printf("How many weeks?\n");
+  printf("Over how many weeks were those units sold?\n");
   scanf("%i", &weeks);
 
   printf("Your average units per week is: %.1f%%\n",
@@ -164,10 +164,10 @@ float averagePerWeek(void) {
 float averageOrderValue(void) {
   int revenue, orders;
 
-  printf("What's the total revenue?\n");
+  printf("What is your total revenue?\n");
   scanf("%i", &revenue);
 
-  printf("How many total orders?\n");
+  printf("What is your total order amount?\n");
   scanf("%i", &orders);
 
   printf("The average order value is: $%i\n", (int)revenue / orders);
@@ -229,13 +229,13 @@ float sellThroughRate(void) {
   return 1;
 };
 float grossMarginRate(void) {
-  int revenue, cogsValue, *pCogsValue, selection;
+  int revenue, cogsValue, selection;
   cogsValue = 0;
-  pCogsValue = &cogsValue;
 
   options option[] = {{1, "Yes\n"}, {2, "No\n"}};
 
-  printf("This formula requires a cost of goods sold figure. Would you like to "
+  printf("To calculate gross margin rate, this formula requires a cost of "
+         "goods sold figure. Would you like to "
          "calculate that now?\n");
   for (int i = 0; i < sizeof(option) / sizeof(option[0]); i++) {
     printf("%i. %s", option[i].id, option[i].opt);
@@ -243,7 +243,7 @@ float grossMarginRate(void) {
   scanf("%i", &selection);
 
   if (selection == 1) {
-    *pCogsValue = cogs();
+    cogsValue = cogs();
   }
 
   printf("What is your total revenue?\n");
@@ -265,7 +265,8 @@ float grossMarginReturnOnInvestment(void) {
   options option2[] = {
       {1, "Gross Margin\n"}, {2, "Average Cost of Inventory\n"}, {3, "Both\n"}};
 
-  printf("This formula requires a gross margin and average cost of inventory. "
+  printf("To calculate gross margin return on investment, this formula "
+         "requires a gross margin and average cost of inventory. "
          "Would you like to calculate them now?\n");
   for (int i = 0; i < sizeof(option1) / sizeof(option1[0]); i++) {
     printf("%i. %s", option1[i].id, option1[i].opt);
@@ -287,7 +288,7 @@ float grossMarginReturnOnInvestment(void) {
       break;
 
     case 2:
-      printf("What is your gross margin?\n");
+      printf("What is your gross margin rate?\n");
       scanf("%i", &gm);
       aInv = averageInventory();
       printf("Your GMROI is: %.1f\n", (float)gm / aInv);
@@ -304,11 +305,11 @@ float grossMarginReturnOnInvestment(void) {
       return 1;
     };
   } else {
-    printf("What is your gross margin?\n");
+    printf("What is your gross margin rate?\n");
     scanf("%i", &gm);
     printf("What is your average cost of inventory?\n");
     scanf("%i", &aInv);
-
+    // need stop for a return that is less than zero / something didn't compute
     printf("Your GMROI is: %.1f\n", (float)gm / aInv);
   }
 
@@ -324,10 +325,99 @@ float averageInventory(void) {
   scanf("%i", &eInv);
 
   total = (bInv / eInv) / 2;
-  printf("Your average inventory value is: %.2f\n", (float)total);
+  printf("Your average inventory value is: $%.2f\n", (float)total);
 
   return total;
 }
-float stockToSales(void) { return 0.0; }
-float turns(void) { return 0.0; }
-float weeksOfSupply(void) { return 0.0; }
+float stockToSales(void) {
+  int aInv, nSales, selection;
+
+  options option[] = {{1, "Yes"}, {2, "No"}};
+  printf("To calculate stock-to-sales, the formula requires an average "
+         "inventory value. Would you like to calculate that now?\n");
+  for (int i = 0; i < sizeof(option) / sizeof(option[0]); i++) {
+    printf("%i: %s", option[i].id, option[i].opt);
+  }
+  scanf("%i", &selection);
+
+  if (selection == 1) {
+    aInv = averageInventory();
+    printf("What is the value of your net sales?\n");
+    scanf("%i", &nSales);
+    printf("Your stock-to-sales ratio is: %.1f\n", (float)aInv / nSales);
+  } else {
+    printf("What is the value of your average inventory?\n");
+    scanf("%i", &aInv);
+    printf("What is the value of your net sales?\n");
+    scanf("%i", &nSales);
+    printf("Your stock-to-sales ratio is: %.1f\n", (float)aInv / nSales);
+  }
+  return 0.0;
+}
+float turns(void) {
+  int cogsValue, aInv, selection, secondSelection;
+  options option1[] = {{1, "Yes\n"}, {2, "No\n"}};
+  options option2[] = {{1, "Cost of Goods Sold\n"},
+                       {2, "Average Cost of Inventory\n"},
+                       {3, "Both\n"}};
+
+  printf("To calculate inventory turnover, this formula requires a gross "
+         "margin and average cost of inventory. "
+         "Would you like to calculate them now?\n");
+  for (int i = 0; i < sizeof(option1) / sizeof(option1[0]); i++) {
+    printf("%i. %s", option1[i].id, option1[i].opt);
+  }
+  scanf("%i", &selection);
+
+  if (selection == 1) {
+    printf("Please select which formula you'd like to run\n");
+    for (int i = 0; i < sizeof(option2) / sizeof(option2[0]); i++) {
+      printf("%i. %s", option2[i].id, option2[i].opt);
+    }
+    scanf("%i", &secondSelection);
+    switch (secondSelection) {
+    case 1:
+      cogsValue = cogs();
+      printf("What is your average cost of inventory?\n");
+      scanf("%i", &aInv);
+      printf("Your inventory turnover is: %.1f", (float)cogsValue / aInv);
+      break;
+
+    case 2:
+      printf("What is your cost of goods sold?\n");
+      scanf("%i", &cogsValue);
+      aInv = averageInventory();
+      printf("Your inventory turnover is: %.1f\n", (float)cogsValue / aInv);
+      break;
+
+    case 3:
+      cogsValue = cogs();
+      aInv = averageInventory();
+      printf("Your inventory turnover is: %.1f\n", (float)cogsValue / aInv);
+      break;
+
+    default:
+      printf("Invalid selection\n");
+      return 1;
+    };
+  } else {
+    printf("What is your cost of goods sold?\n");
+    scanf("%i", &cogsValue);
+    printf("What is your average cost of inventory?\n");
+    scanf("%i", &aInv);
+    // need stop for a return that is less than zero / something didn't compute
+    printf("Your inventory turnover is: %.1f\n", (float)cogsValue / aInv);
+  }
+  return 0.0;
+}
+float weeksOfSupply(void) {
+  int aSales, eInv;
+  printf("What are your average weekly sales?\n");
+  scanf("%i", &aSales);
+
+  printf("What is your ending inventory?\n");
+  scanf("%i", &eInv);
+
+  printf("Your weeks of supply is: %.1f\n", (float)eInv / aSales);
+  return 0.0;
+}
