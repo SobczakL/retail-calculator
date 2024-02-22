@@ -309,7 +309,6 @@ float grossMarginReturnOnInvestment(void) {
     scanf("%i", &gm);
     printf("What is your average cost of inventory?\n");
     scanf("%i", &aInv);
-    // need stop for a return that is less than zero / something didn't compute
     printf("Your GMROI is: %.1f\n", (float)gm / aInv);
   }
 
