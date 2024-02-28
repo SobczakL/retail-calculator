@@ -1,6 +1,6 @@
 # Retail Math Calculator
 
-This C program serves as a Retail Math Calculator, allowing users to perform various calculations related to retail metrics. It provides a menu-driven interface for selecting different operations and computing relevant metrics commonly used in the retail industry.
+This C program serves as a Retail Math Calculator, allowing users to perform various calculations related to retail metrics. It provides a menu-driven interface for selecting different retail math operations and computing relevant metrics commonly used in the retail industry.
 --
 ## Features
 - Sales Metrics: Calculate average dollar sales, average per week, average order value, average unit cost, average unit retail, and cost of goods sold.
