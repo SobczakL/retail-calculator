@@ -6,7 +6,7 @@ This C program serves as a Retail Math Calculator, allowing users to perform var
 - Sales Metrics: Calculate average dollar sales, average per week, average order value, average unit cost, average unit retail, and cost of goods sold.
 - Productivity Metrics: Calculate sell-through rate, gross margin, and gross margin return on investment.
 - Inventory Metrics: Compute average inventory, stock-to-sales ratio, inventory turnover (turns), and weeks of supply.
---
+---
 
 ### Usage
 
